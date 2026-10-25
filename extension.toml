@@ -1,0 +1,35 @@
+name = "adversarial-engineering-loop"
+description = "Bounded architectural debate and adversarial build/review workflows"
+config_version = 1
+version = "0.1.0"
+
+[[files]]
+path = "bin/thurbox-loop"
+executable = true
+
+[[files]]
+path = "README.md"
+
+[[files]]
+path = "thurbox_loop/__init__.py"
+
+[[files]]
+path = "thurbox_loop/__main__.py"
+
+[[files]]
+path = "thurbox_loop/core.py"
+
+[[files]]
+path = "thurbox_loop/debate.py"
+
+[[files]]
+path = "thurbox_loop/adversarial.py"
+
+[[files]]
+path = "thurbox_loop/runtime.py"
+
+[[files]]
+path = "thurbox_loop/thurbox.py"
+
+[[files]]
+path = "thurbox_loop/cli.py"
