@@ -53,7 +53,8 @@ normal workflow behavior still creates a fresh session on each turn.
 
 This proves the result protocol with an authenticated provider after startup.
 It does not prove unattended first-run startup, the full default provider pair,
-or real model performance across either complete workflow. Claude is absent.
+or real model performance across either complete workflow. Claude was absent
+during that earlier test; its later installation is recorded below.
 
 ## Automated checks
 
@@ -72,3 +73,23 @@ reporting an empty failure message; a regression test reproduces that contract.
 
 No deployment or production data was involved. CI status is checked after push;
 this repository initially has no configured workflow.
+
+## Enterprise accounts — 2026-10-26
+
+- Installed official Claude Code 2.1.308 via Homebrew cask with automatic
+  Homebrew updates/cleanup disabled. Isolated native auth status correctly
+  reported signed out and the selected synthetic configuration directory.
+- Full suite: 67 tests passed; compileall and fixture workflow smoke passed.
+- Real Thurbox 2.75.2/tmux account smoke used synthetic Claude identities with
+  no model calls. Profile launch environment persisted; confirmed handoff created
+  a new UUID; restart retained it; source transcript remained unchanged.
+  Latest artifact: `/private/tmp/tbx-account-smoke-ylnqrzbo/summary.json`.
+- Installed v0.2.0 plus live Accounts pane. Plugin check loaded all panes with
+  zero warnings/dropped pills. Opened a real TUI, verified the Accounts pill and
+  honest untrusted pane render, then quit that test instance. No trust granted.
+- Independent review corrected stale UI answers, effective tmux session
+  environment validation, destination recovery identity, pre-spawn locking and
+  Unicode path encoding. UI updates also preserve edited generated panes.
+- Real Enterprise SSO and cross-organization context transfer were **not**
+  verified: no authenticated profile is available. Native handoff remains gated
+  behind the per-build synthetic fork/restart check after user SSO.

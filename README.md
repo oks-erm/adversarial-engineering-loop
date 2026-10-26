@@ -238,3 +238,9 @@ hooks are not changed. Results from the actual installation are recorded in
 - No third judge, UI pane, auto-detection, auto-commit, auto-merge or deployment.
   No runtime third-party Python dependencies. Package installation optionally
   needs setuptools; source/extension execution does not.
+
+## Claude Enterprise account switching
+
+Use separate SSO profiles for new sessions, or explicitly preview and confirm a
+conversation handoff to another account. Includes a native Thurbox Accounts pane.
+See the [short account guide](docs/ACCOUNTS.md) for setup, keys, and transfer limits.

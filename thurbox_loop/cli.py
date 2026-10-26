@@ -9,6 +9,7 @@ import tomllib
 import uuid
 from pathlib import Path
 
+from . import accounts
 from .adversarial import Adversarial, git
 from .core import dumps, redact
 from .debate import Debate
@@ -43,6 +44,7 @@ def load_config(path: Path) -> list[list[str]]:
 def parser() -> argparse.ArgumentParser:
     root = argparse.ArgumentParser(prog="thurbox-loop", description="Debate decisions or adversarially build and review code.")
     subs = root.add_subparsers(dest="workflow", required=True)
+    accounts.add_parser(subs)
     for name, help_text in [("debate", "Four bounded decision rounds"), ("adversarial", "Build, attack and repair until satisfied")]:
         command = subs.add_parser(name, help=help_text)
         command.add_argument("task", help="Question or implementation task")
@@ -70,6 +72,12 @@ def parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     command_parser = parser()
     args = command_parser.parse_args(argv)
+    if args.workflow == "accounts":
+        try:
+            return accounts.main(args)
+        except (OSError, ValueError, RuntimeError, TimeoutError) as error:
+            print(redact(str(error)), file=sys.stderr)
+            return 1
     repo = args.repo.resolve()
     if not repo.is_dir() or not args.task.strip():
         command_parser.error("repo must exist and task must not be empty")

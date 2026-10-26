@@ -26,14 +26,14 @@ def normalize_commands(commands: list) -> list[list[str]]:
     return normalized
 
 
-def execute(argv: list[str], cwd: Path, *, timeout: float = 600, limit: int = 65536) -> dict:
+def execute(argv: list[str], cwd: Path, *, timeout: float = 600, limit: int = 65536, env: dict[str, str] | None = None) -> dict:
     if not math.isfinite(timeout) or timeout <= 0 or limit < 1:
         raise ValueError("timeout and output limit must be positive and finite")
     start = time.monotonic()
     buffers = {"stdout": bytearray(), "stderr": bytearray()}
     truncated, timed_out = False, False
     try:
-        process = subprocess.Popen(argv, cwd=cwd, stdin=subprocess.DEVNULL,
+        process = subprocess.Popen(argv, cwd=cwd, env=env, stdin=subprocess.DEVNULL,
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
     except OSError as error:
         return dict(command=argv, status="ERROR", exit_code=None, stdout="", stderr=redact(str(error)),
