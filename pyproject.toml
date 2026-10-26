@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "thurbox-loop"
+version = "0.2.0"
+description = "Distinct debate and adversarial implementation workflows for Thurbox"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+thurbox-loop = "thurbox_loop.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["thurbox_loop*"]
