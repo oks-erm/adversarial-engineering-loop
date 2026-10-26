@@ -78,24 +78,9 @@ field in diagnostics. No CI/CD or deployment is configured yet;
 do not push/publish without the user's authorization. Update this file when the
 architecture, setup, configuration or integration contract changes.
 
-## Enterprise accounts (v0.2)
+## Scope boundary
 
-`accounts.py` owns private profile metadata, native Claude auth adapter and
-single-use handoff plans. `accounts_ui.py` delivers `ui/accounts.lua` to the live
-interface without changing its layout or granting capabilities. See docs/ACCOUNTS.md.
-Default data: ~/.local/share/thurbox-loop/accounts; CLI --accounts-dir overrides it.
-Local account sessions explicitly select tmux and check its effective server/
-session environment, using public version socket metadata. Only CLAUDE_CONFIG_DIR is scoped; native Claude owns credentials. Never read/copy
-credential files or weaken managed policies. Refuse conflicting provider/auth env.
-Handoff requires a stopped source, pinned identity and a native compatibility
-probe for the exact Claude executable. Bootstrap a native fork once, then create
-the Thurbox session with --resume UUID. Never persist --agent-arg --resume PATH:
-Thurbox replays those flags on restart and would reset the destination context.
-Probe text is synthetic; actual account tests require human SSO. Do not claim a
-cross-organization test passed without it. UI actions require user-granted run
-and program capabilities; never edit ui.json trust. Run plugin check after every
-live pane edit. Test accounts with unittest discover -s tests -p test_accounts.py.
-
-Opt-in account integration: `python3.11 examples/accounts_live_smoke.py
---thurbox-cli /path/to/thurbox-cli` (one shell line). Uses synthetic native-agent
-fixtures with real Thurbox/tmux; never implies Enterprise SSO was verified.
+Account switching is maintained separately at https://github.com/oks-erm/thurbox-accounts.
+This repository must contain only debate/adversarial workflows; no account CLI,
+UI pane, authentication helpers or account payloads. Regression tests enforce the
+CLI and manifest boundary. Existing account state belongs to the standalone extension.

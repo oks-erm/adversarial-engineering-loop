@@ -239,8 +239,8 @@ hooks are not changed. Results from the actual installation are recorded in
   No runtime third-party Python dependencies. Package installation optionally
   needs setuptools; source/extension execution does not.
 
-## Claude Enterprise account switching
+## Separate account extension
 
-Use separate SSO profiles for new sessions, or explicitly preview and confirm a
-conversation handoff to another account. Includes a native Thurbox Accounts pane.
-See the [short account guide](docs/ACCOUNTS.md) for setup, keys, and transfer limits.
+Claude Enterprise account switching is an independent extension:
+[Thurbox Accounts](https://github.com/oks-erm/thurbox-accounts). Install it separately
+and use `thurbox-accounts`; this extension provides only debate/adversarial workflows.
