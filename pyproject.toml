@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "thurbox-loop"
-version = "0.1.0"
+version = "0.1.1"
 description = "Distinct debate and adversarial implementation workflows for Thurbox"
 requires-python = ">=3.11"
 dependencies = []

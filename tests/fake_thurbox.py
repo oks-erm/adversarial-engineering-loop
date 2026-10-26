@@ -8,6 +8,11 @@ from pathlib import Path
 
 root = Path(os.environ["FAKE_THURBOX_ROOT"])
 args = [arg for arg in sys.argv[1:] if arg != "--json"]
+if os.environ.get("FAKE_CLI_ERROR"):
+    if os.environ.get("FAKE_CLI_WARNING"):
+        print("unrelated startup warning", file=sys.stderr)
+    print(json.dumps({"error": "agent is not registered", "error_kind": "other"}))
+    sys.exit(1)
 with (root / "calls.jsonl").open("a") as stream:
     stream.write(json.dumps(args) + "\n")
 

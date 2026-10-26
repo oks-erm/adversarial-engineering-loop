@@ -27,7 +27,7 @@ Or install the extension into Thurbox's extension home:
 
 ```sh
 thurbox-cli extension install ./
-# After this source has been committed and pushed, remote installation is:
+# After this source is merged into the default branch, remote installation is:
 # thurbox-cli extension install git+https://github.com/oks-erm/adversarial-engineering-loop.git
 ```
 
@@ -197,20 +197,40 @@ Generated examples: [Debate report](examples/reports/DEBATE_REPORT.md),
 [Adversarial report](examples/reports/ADVERSARIAL_REPORT.md),
 [Engineering log](examples/reports/ADVERSARIAL_LOG.md).
 
+With Thurbox and its multiplexer installed, run the opt-in integration check:
+
+```sh
+python3.11 examples/live_smoke.py --thurbox-cli /path/to/thurbox-cli
+# Validate an installed extension's runtime instead of the source checkout:
+python3.11 examples/live_smoke.py --thurbox-cli /path/to/thurbox-cli \
+  --extension-root /path/to/extension/home
+```
+
+This uses a separate temporary Thurbox registry/database and controlled test
+agents through **real Thurbox sessions**, without LLM calls. It verifies all
+13 sessions stop and the worktree is retained. Existing personal agents and
+hooks are not changed. Results from the actual installation are recorded in
+[validation evidence](docs/VALIDATION.md).
+
 ## Limits and assumptions
 
 - v0.1 supports local POSIX hosts only; no Windows process-tree or remote-host
   orchestration. No resume/retry after interruption; retained state is inspectable.
-- This environment has no installed Thurbox, so **live Thurbox/Claude/Codex
-  execution is unverified**. Fake CLI tests exercise the inspected contract, not
-  an installed binary or its actual terminal readiness behavior.
+- Real Thurbox **2.75.2** and tmux **3.8** have been tested with both full
+  workflows using controlled agents. One authenticated Codex JSON turn also
+  passed after its interactive startup was handled. The complete default
+  Claude/Codex pairing remains unverified: Claude is not installed here.
 - Agent read-only rules are prompts plus mutation detection in adversarial mode,
   **not an OS sandbox**. Use suitably restricted registered agents for untrusted
   code. Debate independence concerns supplied context; this is not a security
   boundary against a malicious agent searching the filesystem.
 - Agents must have permission to read the private temporary prompt and write its
-  result path. Approval prompts can cause a timeout. Existing permission policy
-  is preserved. Nothing automatically grants elevated agent permissions.
+  result path. Folder trust, hook review and other startup dialogs may prevent
+  prompt submission or cause a timeout. Review those dialogs through the agent's
+  own interface before unattended use. This extension does not accept them or
+  change sandbox/approval policy. The real Codex test reused a fresh session
+  after folder approval and skipping untrusted hooks; it did not establish
+  unattended first-run readiness.
 - Results and evidence are private files with redaction of known secret env
   values and common token patterns. Redaction is best effort; do not configure
   checks or tasks that print sensitive customer data or unknown credentials.

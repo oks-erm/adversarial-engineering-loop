@@ -44,7 +44,15 @@ class Thurbox:
         if result["status"] == "TIMEOUT":
             raise TimeoutError(f"Thurbox {' '.join(args[:2])} exceeded its deadline")
         if result["status"] != "PASS" or result["truncated"]:
-            raise RuntimeError(f"Thurbox {' '.join(args[:2])} failed ({result['status']}): {result['stderr'][:1000]}")
+            detail = result["stderr"]
+            try:
+                failure = strict_json(result["stdout"])
+                if isinstance(failure, dict) and isinstance(failure.get("error"), str):
+                    detail = failure["error"]
+            except ValueError:
+                pass
+            raise RuntimeError(f"Thurbox {' '.join(args[:2])} failed ({result['status']}): "
+                               f"{detail[:1000] or 'no diagnostic returned'}")
         value = strict_json(result["stdout"])
         if not isinstance(value, dict) or value.get("ok") is False:
             raise ValueError("Thurbox returned invalid or unsuccessful JSON")

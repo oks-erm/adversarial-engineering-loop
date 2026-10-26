@@ -20,6 +20,8 @@ human-readable Markdown, with exclusive run directories and atomic writes.
 python3.11 -m unittest discover -s tests -v
 python3.11 -m compileall -q thurbox_loop examples tests
 python3.11 examples/smoke.py
+# Opt-in: real Thurbox/tmux sessions, controlled agents, no LLM calls:
+python3.11 examples/live_smoke.py --thurbox-cli /path/to/thurbox-cli
 ```
 
 No dependency installation is needed for development. There is no configured
@@ -67,6 +69,11 @@ unittest suite, compileall, and smoke. Inspect generated reports and final diff,
 including untracked files. Test failures, timeouts, malformed results, isolated
 worktree refusal, first-turn independence and objective-check precedence.
 Live integration requires installed Thurbox plus authenticated agents; do not
-claim it passed based on the fake CLI. No CI/CD or deployment is configured yet;
+claim it passed based on the fake CLI. The opt-in live smoke uses real sessions
+with controlled agents and isolated THURBOX_CONFIG_DIR/THURBOX_DATA_DIR. See
+docs/VALIDATION.md for verified versions and the limited real Codex test. Startup
+dialogs require human review: never automatically trust folders or hooks.
+Thurbox errors may be JSON on stdout with empty stderr; preserve their error
+field in diagnostics. No CI/CD or deployment is configured yet;
 do not push/publish without the user's authorization. Update this file when the
 architecture, setup, configuration or integration contract changes.

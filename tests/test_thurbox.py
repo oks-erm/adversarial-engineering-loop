@@ -84,3 +84,13 @@ class ThurboxTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.tb.create_worktree(self.root, "../../main")
         self.assertFalse((self.root / "calls.jsonl").exists())
+
+    def test_error_json_on_stdout_is_surfaced(self):
+        with patch.dict(os.environ, {"FAKE_CLI_ERROR": "1"}):
+            with self.assertRaisesRegex(RuntimeError, "agent is not registered"):
+                self.tb.call("session", "get", "missing")
+
+    def test_structured_error_is_not_hidden_by_stderr_warning(self):
+        with patch.dict(os.environ, {"FAKE_CLI_ERROR": "1", "FAKE_CLI_WARNING": "1"}):
+            with self.assertRaisesRegex(RuntimeError, "agent is not registered"):
+                self.tb.call("session", "get", "missing")
